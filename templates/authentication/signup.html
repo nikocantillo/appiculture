@@ -5,6 +5,57 @@
 <!-- Content -->
 {% block content %}
 
+<section>
+  <div class="body-1">
+    <div class="container-register shadow-lg">
+      <div class="heading">Registrarte</div>
+      <label for="">Es rapido y fácil.</label>
+      <form action="" method="post">
+        {% csrf_token %}
+        
+        <div class="card-details  ">
+          <div class="card-box">
+            <span class="details">Nombre Usuario</span>
+            <input type="text" id="username" name="username" placeholder="entre su nomrbe de usuario ">
+          </div>
+          <div class="card-box">
+            <span class="details">Nombre</span>
+            <input type="text" id="fname" name="fname" placeholder="entre su nombre ">
+          </div>
+          <div class="card-box">
+            <span class="details">Apellidos</span>
+            <input type="text" id="lname" name="lname"  placeholder="entre su apellido ">
+          </div>
+          <div class="card-box">
+            <span class="details">Correo electronico</span>
+            <input type="email" id="email" name="email" placeholder="entre su correo electronico ">
+          </div>
+          <div class="card-box">
+            <span class="details" >Contraseña</span>
+            <input type="password" id="pass1" name="pass1" placeholder="entre su contraseña">
+          </div>
+          <div class="card-box">
+            <span class="details">Confirmacion de contraseña</span>
+            <input type="password" id="pass2" name="pass2" placeholder="entre su contraseña ">
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="Registrarte">
+          </span>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  
+</section>
+
+
+
+{% endblock content %}
+
+
+
 <!-- <div class="min-h-screen bg-white dark:bg-dark-main flex">
   <div class="hidden lg:block relative w-0 flex-1">
     <img class="absolute inset-0 h-full w-full object-cover" src="{% static "images/logo_api.jpeg" %}" alt="">
@@ -67,44 +118,3 @@
   </div>
   
 </div> -->
-
-<div class="container">
-  <div class="heading">Registro</div>
-  <form action="" method="post">
-    {% csrf_token %}
-    
-    <div class="card-details  ">
-      <div class="card-box">
-        <span class="details">Nombre Usuario</span>
-        <input type="text" id="username" name="username" placeholder="entre su nomrbe de usuario ">
-      </div>
-      <div class="card-box">
-        <span class="details">Nombre</span>
-        <input type="text" id="fname" name="fname" placeholder="entre su nombre ">
-      </div>
-      <div class="card-box">
-        <span class="details">Apellidos</span>
-        <input type="text" id="lname" name="lname"  placeholder="entre su apellido ">
-      </div>
-      <div class="card-box">
-        <span class="details">Correo electronico</span>
-        <input type="email" id="email" name="email" placeholder="entre su correo electronico ">
-      </div>
-      <div class="card-box">
-        <span class="details" >Password</span>
-        <input type="text" id="pass1" name="pass1" placeholder="entre su contraseña">
-      </div>
-      <div class="card-box">
-        <span class="details">Confirmacion de contraseña</span>
-        <input type="text" id="pass2" name="pass2" placeholder="entre su contraseña ">
-      </div>
-    </div>
-    <div class="button">
-      <input type="submit" value="Registro">
-      </span>
-    </div>
-  </form>
-</div>
-
-
-{% endblock content %}
