@@ -16,7 +16,7 @@ from .forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.shortcuts import  render, redirect
 from django.contrib import messages
-
+# hola este es un comentariio
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     """User detail view."""
