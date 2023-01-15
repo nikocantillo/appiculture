@@ -1,120 +1,65 @@
 {% extends 'base.html' %}
-{% load static %}
+
+{% block content %}
+{% comment %} <title>Platzigram sign up</title>
+
+    <form action="{% url 'users:signup' %}" method="POST">
+        {% csrf_token %}
+{{form.username}}
+        {{ form.as_p }}
+
+        <button class="btn btn-primary btn-block mt-5" type="submit">Register!</button>
+
+    </form> {% endcomment %}
+
+    <section>
+      <div class="body-1">
+        <div class="container-register shadow-lg">
+          <div class="heading">Registrarte</div>
+          <label for="">Es rapido y fácil.</label>
+          <form action="" method="post">
+            {% csrf_token %}
+            
+            <div class="card-details  ">
+              <div class="card-box">
+                <span class="details">Nombre Usuario</span>
+                <input type="text" id="username" name="{{form.username.name}}" placeholder="entre su nomrbe de usuario ">
+              </div>
+              <div class="card-box">
+                <span class="details">Nombre</span>
+                <input type="text" id="fname" name="{{form.first_name.name}}" placeholder="entre su nombre ">
+              </div>
+              <div class="card-box">
+                <span class="details">Apellidos</span>
+                <input type="text" id="lname" name="{{form.last_name.name}}"  placeholder="entre su apellido ">
+              </div>
+              <div class="card-box">
+                <span class="details">Correo electronico</span>
+                <input type="email" id="email" name="{{form.email.name}}" placeholder="entre su correo electronico ">
+              </div>
+              <div class="card-box">
+                <span class="details" >Contraseña</span>
+                <input type="password" id="pass1" name="{{form.password.name}}" placeholder="entre su contraseña">
+              </div>
+              <div class="card-box">
+                <span class="details">Confirmacion de contraseña</span>
+                <input type="password" id="pass2" name="{{form.password_confirmation.name}}" placeholder="entre su contraseña ">
+              </div>
+            </div>
+            <div class="button">
+              <input type="submit" value="Registrarte">
+              </span>
+            </div>
+          </form>
+        </div>
+    
+      </div>
+      
+    </section>
+    
+
+{% endblock %}
 
 
 <!-- Content -->
-{% block content %}
 
-<section>
-  <div class="body-1">
-    <div class="container-register shadow-lg">
-      <div class="heading">Registrarte</div>
-      <label for="">Es rapido y fácil.</label>
-      <form action="" method="post">
-        {% csrf_token %}
-        
-        <div class="card-details  ">
-          <div class="card-box">
-            <span class="details">Nombre Usuario</span>
-            <input type="text" id="username" name="username" placeholder="entre su nomrbe de usuario ">
-          </div>
-          <div class="card-box">
-            <span class="details">Nombre</span>
-            <input type="text" id="fname" name="fname" placeholder="entre su nombre ">
-          </div>
-          <div class="card-box">
-            <span class="details">Apellidos</span>
-            <input type="text" id="lname" name="lname"  placeholder="entre su apellido ">
-          </div>
-          <div class="card-box">
-            <span class="details">Correo electronico</span>
-            <input type="email" id="email" name="email" placeholder="entre su correo electronico ">
-          </div>
-          <div class="card-box">
-            <span class="details" >Contraseña</span>
-            <input type="password" id="pass1" name="pass1" placeholder="entre su contraseña">
-          </div>
-          <div class="card-box">
-            <span class="details">Confirmacion de contraseña</span>
-            <input type="password" id="pass2" name="pass2" placeholder="entre su contraseña ">
-          </div>
-        </div>
-        <div class="button">
-          <input type="submit" value="Registrarte">
-          </span>
-        </div>
-      </form>
-    </div>
-
-  </div>
-  
-</section>
-
-
-
-{% endblock content %}
-
-
-
-<!-- <div class="min-h-screen bg-white dark:bg-dark-main flex">
-  <div class="hidden lg:block relative w-0 flex-1">
-    <img class="absolute inset-0 h-full w-full object-cover" src="{% static "images/logo_api.jpeg" %}" alt="">
-  </div>
-  <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-    <div class="mx-auto w-full max-w-sm lg:w-96">
-      <div>
-        <img class="h-12 w-auto " src="{% static "images/logo_api.jpeg" %}" alt="Vudera Logo">
-        <h2 class="mt-6 text-3xl font-extrabold dark:text-dark-txt text-gray-900">
-          Registro
-        </h2>
-        <p class="mt-2 text-sm text-gray-600 dark:text-dark-txt">
-          Ya tienes cuenta?
-          <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
-            Acceder
-          </a>
-        </p>
-      </div>
-
-      <div class=" ">
-        <div class="bg-white dark:bg-dark-main py-8 px-4  sm:rounded-lg sm:px-10">
-          <form class="space-y-4" action="#" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Create A Username (use only letters and numbers)" Required>
-            </div>
-            <div class="form-group">
-                <label for="fname">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name" Required>
-            </div>
-            <div class="form-group">
-                <label for="lname">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" Required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Address" Required>
-            </div>
-            <div class="form-group">
-                <label for="pass1">Password</label>
-                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Create Your Password" Required>
-            </div>
-            <div class="form-group">
-                <label for="pass2">Confirm Password</label>
-                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Your Password" Required>
-            </div>
-
-            <div>
-              <button class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit">
-                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                </span>Registrarme
-              </button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-</div> -->

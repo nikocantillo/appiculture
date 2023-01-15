@@ -9,7 +9,7 @@
   <div class="body-1">
     <div class="container-sing shadow-lg">
       <div class="heading-singin">Inicio sesión</div>
-      <form action="" method="post">
+      <form action="{% url "users:login" %}" method="post">
         {% csrf_token %}
         {{user.is_authenticated}}
         <div class="card-details-singin" >
@@ -19,7 +19,7 @@
           </div>
           <div class="card-box-signin">
             <label for="pass1" class="details-signin">Contraseña</label>
-            <input  type="Password" id="pass1" name="pass1" placeholder="Ingrese su contraseña">
+            <input  type="Password" id="pass1" name="password" placeholder="Ingrese su contraseña">
           </div>
         </div>
         <div class="card-pass">¿Olvidaste tu contraseña?</div>
@@ -29,7 +29,7 @@
         </div>
         <p class="mt-2 text-sm text-gray-600" style="text-align: center;">
             O
-            <a href="{% url 'signup' %}" class="font-medium text-blue-600 hover:text-blue-500">
+            <a href="{% url 'users:signup' %}" class="font-medium text-blue-600 hover:text-blue-500">
               Crea una cuenta
             </a>
           </p>

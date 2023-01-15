@@ -49,6 +49,11 @@ class Course(models.Model):
         blank=True,
         null=True,
     )
+    embebe_url = models.CharField(
+        max_length=200,
+        null=True,
+        blank=False
+    )
     published = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
 

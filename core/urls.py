@@ -11,7 +11,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     # path('', include(('posts.urls', 'posts'), namespace='posts')),
     path('courses/', include(('courses.urls'), namespace='courses')),
-    path('', include('authentication.urls'))
+    path('', include(('authentication.urls', 'users'), namespace='users'))
 
 ]
 

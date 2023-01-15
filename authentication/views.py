@@ -1,81 +1,88 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+"""Users views."""
+
+# Django
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import views as auth_views
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DetailView, FormView, UpdateView
+from django.contrib.auth import login, authenticate, logout #add this
+# Models
 from django.contrib.auth.models import User
+from courses.models import Course
+from .models import User as Profile
+
+# Forms
+from .forms import SignupForm
+from django.contrib.auth.forms import AuthenticationForm #add this
+from django.shortcuts import  render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-# Create your views here.
-
-def home(request):
-    return render(request, "authentication/index.html")
-
-def signup(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        email = request.POST['email']
-        pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
-        
-        if User.objects.filter(username=username):
-            messages.error(request, "Username already exist! Please try some other username.")
-            return redirect('home')
-        
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email Already Registered!!")
-            return redirect('home')
-        
-        if len(username)>20:
-            messages.error(request, "Username must be under 20 charcters!!")
-            return redirect('home')
-        
-        if pass1 != pass2:
-            messages.error(request, "Passwords didn't matched!!")
-            return redirect('home')
-        
-        if not username.isalnum():
-            messages.error(request, "Username must be Alpha-Numeric!!")
-            return redirect('home')
-        
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-        # myuser.is_active = False
-        myuser.is_active = False
-        myuser.save()
-        messages.success(
-            request, 
-            "Your Account has been created succesfully!! Please check your email to confirm your email address in order to activate your account."
-        )
-        
-     
-        
-        return redirect('signin')
-        
-        
-    return render(request, "authentication/signup.html")
 
 
-def signin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        pass1 = request.POST['pass1']
-        
-        user = authenticate(username=username, password=pass1)
-        
-        if user is not None:
-            login(request, user)
-            fname = user.username
-            # messages.success(request, "Logged In Sucessfully!!")
-            return render(request, "authentication/index.html",{"fname":fname})
-        else:
-            messages.error(request, "Bad Credentials!!")
-            return redirect('home')
-    
-    return render(request, "authentication/signin.html")
+class UserDetailView(LoginRequiredMixin, DetailView):
+    """User detail view."""
+
+    template_name = 'courses/pages/course/detail.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    queryset = User.objects.all()
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        """Add user's Courses to context."""
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['Courses'] = Course.objects.filter(user=user).order_by('-created')
+        return context
 
 
-def signout(request):
-    logout(request)
-    messages.success(request, "Logged Out Successfully!!")
-    return redirect('home')
+class SignupView(FormView):
+    """Users sign up view."""
+
+    template_name = 'authentication/signup.html'
+    form_class = SignupForm
+    success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        """Save form data."""
+        form.save()
+        return super().form_valid(form)
+
+
+# class UpdateProfileView(LoginRequiredMixin, UpdateView):
+#     """Update profile view."""
+
+#     template_name = 'users/update_profile.html'
+#     model = Profile
+#     fields = ['website', 'biography', 'phone_number', 'picture']
+
+#     def get_object(self):
+#         """Return user's profile."""
+#         return self.request.user.profile
+
+#     def get_success_url(self):
+#         """Return to user's profile."""
+#         username = self.object.user.username
+#         return reverse('users:detail', kwargs={'username': username})
+
+def logout_request(request):
+	logout(request)
+	messages.info(request, "You have successfully logged out.") 
+	return redirect("home")
+
+def login_request(request):
+	if request.method == "POST":
+		form = AuthenticationForm(request, data=request.POST)
+		if form.is_valid():
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				login(request, user)
+				messages.info(request, f"You are now logged in as {username}.")
+				return redirect("home")
+			else:
+				messages.error(request,"Invalid username or password.")
+		else:
+			messages.error(request,"Invalid username or password.")
+	form = AuthenticationForm()
+	return render(request=request, template_name="authentication/signin.html", context={"login_form":form})
