@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 {% comment %} <title>Platzigram sign up</title>
 
@@ -47,7 +47,8 @@
               </div>
             </div>
             <div class="button">
-              <input type="submit" value="Registrarte">
+              <button id="registroButton" type="submit">Registrarte</button>
+              <input id="registroButton" type="submit" value="Registrarte">
               </span>
             </div>
           </form>
@@ -56,6 +57,7 @@
       </div>
       
     </section>
+    <script src="{% static 'js/validate.js' %}"></script>
     
 
 {% endblock %}

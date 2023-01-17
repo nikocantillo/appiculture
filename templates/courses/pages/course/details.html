@@ -1,226 +1,189 @@
+<!DOCTYPE html>
 {% load static %}
 {% block content %}
-
-
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- css -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-     <link rel="stylesheet" href="{% static "css/main.css" %}" /> 
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    
-</head> 
-<body>
-    <div x-data="{open:false}" class="h-screen flex overflow-hidden bg-gray-100">
-        <!-- MOBILE  -->
-        <div x-show="open"  class="fixed inset-0 flex z-40 md:hidden" role="dialog" aria-modal="true">
-          <!--
-            Off-canvas menu overlay, show/hide based on off-canvas menu state.
-            Entering: "transition-opacity ease-linear duration-300"
-              From: "opacity-0"
-              To: "opacity-100"
-            Leaving: "transition-opacity ease-linear duration-300"
-              From: "opacity-100"
-              To: "opacity-0"
-          -->
-          <div @click="open=false" x-show="open" class="fixed inset-0 bg-gray-600 bg-opacity-75" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" aria-hidden="true"></div>
-      
-          <!--
-            Off-canvas menu, show/hide based on off-canvas menu state.
-            Entering: "transition ease-in-out duration-300 transform"
-              From: "-translate-x-full"
-              To: "translate-x-0"
-            Leaving: "transition ease-in-out duration-300 transform"
-              From: "translate-x-0"
-              To: "-translate-x-full"
-          -->
-          <div class="relative flex-1 flex flex-col max-w-xs w-full bg-white" x-show="open"  x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full">
-            <!--
-              Close button, show/hide based on off-canvas menu state.
-              Entering: "ease-in-out duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-              Leaving: "ease-in-out duration-300"
-                From: "opacity-100"
-                To: "opacity-0"
-            -->
-            <div class="absolute top-0 right-0 -mr-12 pt-2">
-              <button @click="open=false" type="button" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                <span class="sr-only">Close sidebar</span>
-                <!-- Heroicon name: outline/x -->
-                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-      
-            <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-              
-              <nav class="mt-5 px-2 space-y-1">
-      
-                  <a href="{% url 'home' %}" class=" inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 ">
-                    Regresar
-                  </a>
-      
-                <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-                  <a href="{{course.get_absolute_url}}" class=" {% if request.path == course.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                    <!--
-                      Heroicon name: outline/home
-                      Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
-                    -->
-                    <svg class="text-gray-500 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    {{course.title}}
-                  </a>
-      
-                  {% for chapter in course.chapter_set.all %}
-                  <a href="{{chapter.get_absolute_url}}" class="{% if request.path == chapter.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                    <!-- Heroicon name: outline/users -->
-                    <span class="text-gray-500 font-medium">{{chapter.chapter_number}}) {{chapter.title}}</span>
-                  </a>
-      
-                    {% for lesson in chapter.lesson_set.all %}
-                    <a href="{{lesson.get_absolute_url}}" class="{% if request.path == lesson.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                      <!-- Heroicon name: outline/users -->
-                      <span class="text-gray-500 font-medium">{{lesson.title}}</span>
-                    </a>
-                    {% endfor %}
-                  
-                  {% endfor %}
-              </nav>
-            </div>
-      
-          </div>
-      
-          <div class="flex-shrink-0 w-14">
-            <!-- Force sidebar to shrink to fit close icon -->
-          </div>
-        </div>
-      
-        <!-- DESKTOP -->
-        <div class="hidden md:flex md:flex-shrink-0">
-          <div class="flex flex-col w-64">
-            <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div class="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
-              <div class="flex-1 flex flex-col pt-5 pb-4 ">
-      
-                
-                
-                <nav class="mt-5 flex-1 px-2 bg-white space-y-1 overflow-y-auto">
-      
-                  <a href="{% url 'home' %}" class=" inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
-                    Regresar
-                  </a>
-                  <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
-                  <a href="{{course.get_absolute_url}}" class=" {% if request.path == course.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                    <!--
-                      Heroicon name: outline/home
-                      Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
-                    -->
-                    <svg class="text-gray-500 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    {{course.title}}
-                  </a>
-      
-                  {% for chapter in course.chapter_set.all %}
-                  <a href="{{chapter.get_absolute_url}}" class="{% if request.path == chapter.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                    <!-- Heroicon name: outline/users -->
-                    <span class="text-gray-500 font-medium">{{chapter.chapter_number}}) {{chapter.title}}</span>
-                  </a>
-      
-                    {% for lesson in chapter.lesson_set.all %}
-                    <a href="{{lesson.get_absolute_url}}" class="{% if request.path == lesson.get_absolute_url %} bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%else%} text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md {%endif%}">
-                      <!-- Heroicon name: outline/users -->
-                      <span class="text-gray-500 font-medium">{{lesson.title}}</span>
-                    </a>
-                    {% endfor %}
-                  
-                  {% endfor %}
-                  
-      
-                    
-      
-                </nav>
-              </div>
-      
-      
-            </div>
-          </div>
-        </div>
-      
-      
-        <div class="flex flex-col w-0 flex-1 overflow-hidden">
-          <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
-            <button @click="open=true" type="button" class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-              <span class="sr-only">Open sidebar</span>
-              <!-- Heroicon name: outline/menu -->
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-      
-          <!-- CONTENT -->
-          <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-            <div class="py-6">
-              <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <h1 class="text-2xl font-semibold text-gray-900">{{course.title}}</h1>
-              </div>
-      
-              <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <div class="my-1 items-center justify-center p-4 inline-flex video-js vjs-16-9">
-
-                </div>
-                <!-- Replace with your content -->
-                <iframe 
-                class="my-1 items-center justify-center p-4 inline-flex video-js vjs-16-9"
-                width="1300" height="700" 
-                src="{{ course.embebe_url }}" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="relative py-16 mt-4 overflow-hidden">
-                  <div class="relative px-4 sm:px-6 lg:px-8">
-                    <div class="text-lg max-w-prose mx-auto">
-                      <h1>
-                        <span class="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">Category</span>
-                        <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">{{course.title}}</span>
-                      </h1>
-                      <p class="mt-8 text-xl text-gray-500 leading-8">{{course.sub_title}}</p>
-                    </div>
-                    <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
-                      <p>test</p>
-                    </div>
-                  </div>
-                </div>
-      
-                <!-- /End replace -->
-              </div>
-            </div>
-          </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Font import-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--Bootstrap styles import-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!--Styles file import-->
+    <link href="{% static 'css/index2.css' %}" rel="stylesheet" />
+    <!--Font awesome import-->
+    <script
+      src="https://kit.fontawesome.com/c3cae2495d.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--Youtube API import-->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <!--Bootstrap script import-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <title>Selected video</title>
+  </head>
+  <body>
+    <div class="player-container">
+      <div class="selected-video-container">
+        <div class="video-content-container">
+          <div class="selectedVideo" id="selectedVideo"></div>
+          <div class="video-title first-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet orci at diam sodales, blandit dictum elit pellentesque. Aenean eget velit volutpat, lacinia felis et, sagittis est. Fusce semper leo tempor nisi feugiat, sed egestas ligula venenatis. Maecenas in massa pulvinar, ornare erat ultricies, volutpat justo. Aenean enim felis, mattis quis augue ac, viverra pretium odio. Pellentesque at augue eu urna molestie aliquam. Praesent auctor metus neque, eget cursus augue pretium pulvinar.</div>
         </div>
       </div>
-      
-</body>
+      <div class="video-list-container">
+        {% for chapter in course.chapter_set.all %}
+        <div no-body class="mb-0 section-container">
+          <div class="section-title-container"  data-bs-toggle="collapse" href="#accordion-{{chapter.id}}" role="button" aria-expanded="false" aria-controls="accordion-{{chapter.id}}">
+    
+            <span class="section-title third-title">Sección {{chapter.chapter_number}}: {{chapter.title}}</span>
+          </div>
+          <div class="collapse" id="accordion-{{chapter.id}}">
+            {% for lesson in chapter.lesson_set.all %}
+            <div class="section-content">
+              <div class="video-card-container" onclick="selectVideo('{{ lesson.id_url }}')">
+                  <span class="video-title">{{lesson.title}}</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
-</html> 
+        <!-- <div no-body class="mb-0 section-container">
+          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-2" role="button" aria-expanded="false" aria-controls="accordion-2">
+            <span class="section-title third-title">Sección 02: Primeros avances en la temática, buenas tardes a todos</span>
+          </div>
+          <div class="collapse" id="accordion-2">
+            <div class="section-content">
+              <div class="video-card-container">
+                <span class="video-title">Video 1</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 2</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 3</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div no-body class="mb-0 section-container">
+          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-3" role="button" aria-expanded="false" aria-controls="accordion-3">
+            <span class="section-title third-title">Sección 03: Ejercicio práctico #01</span>
+          </div>
+          <div class="collapse" id="accordion-3">
+            <div class="section-content">
+              <div class="video-card-container">
+                <span class="video-title">Video 1</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 2</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 3</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 4</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 5</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 6</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 7</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 8</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 9</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div no-body class="mb-0 section-container">
+          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-4" role="button" aria-expanded="false" aria-controls="accordion-4">
+            <span class="section-title third-title">Sección 04: Final del curso</span>
+          </div>
+          <div class="collapse" id="accordion-4">
+            <div class="section-content">
+              <div class="video-card-container">
+                <span class="video-title">Video 1</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+
+              <div class="video-card-container">
+                <span class="video-title">Video 2</span>
+                <div class="play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+  </body>
+</html>
 {% endblock %}

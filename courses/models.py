@@ -94,6 +94,11 @@ class Chapter(models.Model):
         blank=True,
         null=True,
     )
+    id_url = models.CharField(
+        max_length=200,
+        null=True,
+        blank=False
+    )
     content = models.TextField(
         blank=True, 
         null=True
@@ -138,6 +143,11 @@ class Lesson(models.Model):
         upload_to=lesson_directory_path, 
         blank=True,
         null=True,
+    )
+    id_url = models.CharField(
+        max_length=200,
+        null=True,
+        blank=False
     )
     content = models.TextField(
         blank=True, 

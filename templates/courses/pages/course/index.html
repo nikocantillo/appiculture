@@ -37,7 +37,7 @@
       <div class="video-list-container">
         {% for chapter in course.chapter_set.all %}
         <div no-body class="mb-0 section-container">
-          <div class="section-title-container" onclick="selectVideo('{{chapter.id_url}}')" data-bs-toggle="collapse" href="#accordion-1" role="button" aria-expanded="false" aria-controls="accordion-1">
+          <div class="section-title-container"  data-bs-toggle="collapse" href="#accordion-1" role="button" aria-expanded="false" aria-controls="accordion-1">
             <a href="{{chapter.get_absolute_url}}">
             <span class="section-title third-title">Sección {{chapter.chapter_number}}: {{chapter.title}}</span>
             </a>
@@ -45,7 +45,7 @@
           <div class="collapse" id="accordion-1">
             {% for lesson in chapter.lesson_set.all %}
             <div class="section-content" id="{{post.id}}">
-              <div class="video-card-container" onclick="selectVideo('{{lesson.id_url}}')">
+              <div class="video-card-container" onclick="selectVideo('{{ course.embebe_url }}')">
                 <a  href="{{lesson.get_absolute_url}}">
                   <span class="video-title">{{lesson.title}}</span>
                 </a>
@@ -59,7 +59,7 @@
         </div>
         {% endfor %}
 
-        {% comment %} <div no-body class="mb-0 section-container">
+        <!-- <div no-body class="mb-0 section-container">
           <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-2" role="button" aria-expanded="false" aria-controls="accordion-2">
             <span class="section-title third-title">Sección 02: Primeros avances en la temática, buenas tardes a todos</span>
           </div>
@@ -182,7 +182,7 @@
               </div>
             </div>
           </div>
-        </div> {% endcomment %}
+        </div> -->
       </div>
     </div>
 
