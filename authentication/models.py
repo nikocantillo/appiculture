@@ -14,6 +14,7 @@ class User(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=20, blank=True)
+    forget_password_token = models.CharField(max_length=100, null=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

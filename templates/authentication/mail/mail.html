@@ -75,7 +75,7 @@
             font-weight: bold;"
             >{{token}}</p>
             <p style="color:#495057; font-size: 14px;">recuerde que el token vencerá en 30 minutos.</p>
-            <!-- <a data-button="true" class="btn"  
+            <a data-button="true" class="btn"  
             style="
                 background: rgba(49,16,159,1);
                 border-radius: 4px;
@@ -83,7 +83,7 @@
                 text-decoration: none;
                 padding: 10px;       
             " 
-            href="#">CREAR NUEVA CONTRASEÑA</a> -->
+            href="{{protocol}}://{{domain}}{% url 'users:password_reset_confirm' token=token %}">CREAR NUEVA CONTRASEÑA</a>
           </center>
         </td>
       </tr>

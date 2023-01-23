@@ -1,6 +1,7 @@
 """Users views."""
 
 # Django
+import uuid
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse, reverse_lazy
@@ -10,26 +11,25 @@ from django.contrib.auth import login, authenticate, logout #add this
 from django.contrib.auth.models import User
 from courses.models import Course
 from .models import User as Profile
-
 # Forms
 from .forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.shortcuts import  render, redirect
 from django.contrib import messages
 # hola este es un comentariio
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
-from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-
+from django.views.generic.base import TemplateView
 from authentication.utils.send_mail import create_mail
-
-
+from django.shortcuts import resolve_url
+from django.conf import settings
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.edit import FormView
 
 
 
@@ -106,33 +106,34 @@ def login_request(request):
 	return render(
         request=request, 
         template_name="authentication/signin.html", 
-        context={"login_form":form}
+        context={"form":form}
     )
 
 
 def password_reset_request(request):
+
 	if request.method == "POST":
 		password_reset_form = PasswordResetForm(request.POST)
 		if password_reset_form.is_valid():
 			data = password_reset_form.cleaned_data['email']
 			associated_users = User.objects.filter(Q(email=data))
+
+			token = str(uuid.uuid4())
 			if associated_users.exists():
 				for user in associated_users:
+					token_user = Profile.objects.get(user=user.pk)
+					token_user.forget_password_token = token
+					token_user.save()
 					subject = "Password Reset Requested"
-					email_template_name = "authentication/password_reset.txt"
+					# email_template_name = "authentication/password_reset.txt"
 					c = {
 					# "email":user.email,
-					# 'domain':'127.0.0.1:8001',
+					'domain':'127.0.0.1:8000',
 					# 'site_name': 'Website',
-					# "uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					# "user": user,
-					'token': default_token_generator.make_token(user),
-					# 'protocol': 'http',
+					'token': token,
+					'protocol': 'http',
 					}
-                    # c = {
-                    #     'token': default_token_generator.make_token(user),
-                    # }
-					# email = render_to_string(email_template_name, c)
 					try:
 						mail = create_mail(user.email, subject, 'authentication/mail/mail.html' , c)
 						mail.send(fail_silently=False)
@@ -141,3 +142,54 @@ def password_reset_request(request):
 					return redirect('users:password_reset_done')
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="authentication/password_reset.html", context={"password_reset_form":password_reset_form})
+
+def change_password(request, token):
+	context = {}
+
+	try:
+		profile = Profile.objects.filter(forget_password_token = token).first()
+		if request.method == 'POST':
+			new_password = request.POST.get('new_password')
+			confirm_password = request.POST.get('confirm_password')
+			user_id = request.POST.get('user_id')
+
+			if user_id is None:
+				messages.success(request, 'EL id del Usuario no fue encontrado')
+				return redirect(f'/password_reset_confirm/{token}/')
+			
+			if new_password != confirm_password:
+				messages.success(request, 'Las Contraseñas deben ser iguales')
+				return redirect(f'/password_reset_confirm/{token}/')
+
+			user_id = User.objects.get(id = user_id)
+			user_id.set_password(new_password)
+			user_id.save()
+
+			return redirect('users:login')
+
+
+		context = {'user_id': profile.user.id}
+
+	except Exception as e:
+		print(e)
+	
+	return render(request, "authentication/password_reset_confirm.html", context)
+
+class PasswordContextMixin:
+    extra_context = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {"user_id": self.user.id, "subtitle": None, **(self.extra_context or {})}
+        )
+        return context
+
+class PasswordResetCompleteView(PasswordContextMixin, TemplateView):
+    template_name = "authentication/password_reset_complete.html"
+    title = _("Password reset complete")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["login_url"] = resolve_url(settings.LOGIN_URL)
+        return context

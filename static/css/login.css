@@ -22,6 +22,8 @@ border-radius: 25px;
 background-color: #fff;
 
 }
+
+
 .shadow-lg {
 --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -54,9 +56,22 @@ width: 100%;
     justify-content: space-between;
 }
 
+.container-sing  form .card-details-singin1 {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 form .card-details-singin .card-box-signin {
     width: calc(100% / 2 - 20px);
     margin-bottom: 15px;
+}
+
+form .card-details-singin1 .card-box-signin {
+    width: calc(100% / 2 - 20px);
+    margin-bottom: 25px;
 }
 
 .card-details-singin .card-box-signin .details-signin { 
@@ -64,6 +79,13 @@ form .card-details-singin .card-box-signin {
     font-weight: 500;
     margin-bottom: 5px;
 }
+
+.card-details-singin1 .card-box-signin .details-signin { 
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
 .card-details-singin .card-box-signin input {
     height: 45px;
     width: 100%;
@@ -76,8 +98,27 @@ form .card-details-singin .card-box-signin {
     transition: all 0.3s ease;
 
 }
+
+.card-details-singin1 .card-box-signin input {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+
+}
+
 .card-details-singin .card-box-signin input:focus,
 .card-details-singin .card-box-signin input:valid {
+    border-color: #dddfe2;
+}
+
+.card-details-singin1 .card-box-signin input:focus,
+.card-details-singin1 .card-box-signin input:valid {
     border-color: #dddfe2;
 }
 
@@ -87,7 +128,7 @@ text-align: center;
 
 form .button input{
 padding: 10px 0;
-margin-top: 10px;
+margin-top: 20px;
 height: 100%;
 width: 50%;
 outline: none;
@@ -112,7 +153,17 @@ form .card-details-singin .card-box-signin {
     margin-bottom: 15px;
     width: 100%;
 }
+
+form .card-details-singin1 .card-box-signin {
+    margin-bottom: 15px;
+    width: 100%;
+}
 .container-sing form .card-details-singin{
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.container-sing form .card-details-singin1{
     max-height: 300px;
     overflow: scroll;
 }

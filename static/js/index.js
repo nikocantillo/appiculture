@@ -23,7 +23,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function selectVideo(newVideoId){
-  console.log("entró")
   videoId = newVideoId;
   player.loadVideoById(videoId)
 }

@@ -27,162 +27,57 @@
     <title>Selected video</title>
   </head>
   <body>
-    <div class="player-container">
-      <div class="selected-video-container">
-        <div class="video-content-container">
-          <div class="selectedVideo" id="selectedVideo"></div>
-          <div class="video-title first-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet orci at diam sodales, blandit dictum elit pellentesque. Aenean eget velit volutpat, lacinia felis et, sagittis est. Fusce semper leo tempor nisi feugiat, sed egestas ligula venenatis. Maecenas in massa pulvinar, ornare erat ultricies, volutpat justo. Aenean enim felis, mattis quis augue ac, viverra pretium odio. Pellentesque at augue eu urna molestie aliquam. Praesent auctor metus neque, eget cursus augue pretium pulvinar.</div>
-        </div>
-      </div>
-      <div class="video-list-container">
-        {% for chapter in course.chapter_set.all %}
-        <div no-body class="mb-0 section-container">
-          <div class="section-title-container"  data-bs-toggle="collapse" href="#accordion-{{chapter.id}}" role="button" aria-expanded="false" aria-controls="accordion-{{chapter.id}}">
-    
-            <span class="section-title third-title">Sección {{chapter.chapter_number}}: {{chapter.title}}</span>
+    <div class="module-container">
+      <div class="sections-container">
+        <div class="header-section">
+          <div class="go-back-icon-container">
+            <a href="{% url 'home' %}" >
+              <i class="fa-solid fa-arrow-left go-back-icon"></i>
+            </a>
           </div>
-          <div class="collapse" id="accordion-{{chapter.id}}">
-            {% for lesson in chapter.lesson_set.all %}
-            <div class="section-content">
-              <div class="video-card-container" onclick="selectVideo('{{ lesson.id_url }}')">
-                  <span class="video-title">{{lesson.title}}</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
+          <div class="course-title-container">
+            <span id="big-title" class="course-title">{{course.title}}</span>
+          </div>
+        </div>
+        <div class="player-container">
+          <div class="selected-video-container">
+            <div class="video-content-container">
+              <div class="selected-video" id="selectedVideo"></div>
+              <div class="video-title-container">
+                <span class="selected-video-title first-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet orci at diam sodales, blandit dictum elit pellentesque. Aenean eget velit volutpat, lacinia felis et, sagittis est. Fusce semper leo tempor nisi feugiat, sed egestas ligula venenatis. Maecenas in massa pulvinar, ornare erat ultricies, volutpat justo. Aenean enim felis, mattis quis augue ac, viverra pretium odio. Pellentesque at augue eu urna molestie aliquam. Praesent auctor metus neque, eget cursus augue pretium pulvinar.</span>
+              </div>
+            </div>
+          </div>
+          <div class="video-list-container">
+            <div class="next-video-container">
+              <span class="next-video-title">Siguiente video</span>
+              <i class="fa-solid fa-arrow-right next-video-icon"></i>
+            </div>
+
+            {% for chapter in course.chapter_set.all %}
+            <div no-body class="mb-0 section-container">
+              <div class="section-title-container"  data-bs-toggle="collapse" href="#accordion-{{chapter.id}}" role="button" aria-expanded="false" aria-controls="accordion-{{chapter.id}}">
+        
+                <span class="section-title third-title">Sección {{chapter.chapter_number}}: {{chapter.title}}</span>
+              </div>
+              <div class="collapse" id="accordion-{{chapter.id}}">
+                {% for lesson in chapter.lesson_set.all %}
+                <div class="section-content">
+                  <div class="video-card-container" onclick="selectVideo('{{ lesson.id_url }}')">
+                      <span class="video-title">{{lesson.title}}</span>
+                    <div class="play-btn">
+                      <i class="fa-solid fa-play"></i>
+                    </div>
+                  </div>
                 </div>
+                {% endfor %}
               </div>
             </div>
             {% endfor %}
           </div>
         </div>
-        {% endfor %}
-
-        <!-- <div no-body class="mb-0 section-container">
-          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-2" role="button" aria-expanded="false" aria-controls="accordion-2">
-            <span class="section-title third-title">Sección 02: Primeros avances en la temática, buenas tardes a todos</span>
-          </div>
-          <div class="collapse" id="accordion-2">
-            <div class="section-content">
-              <div class="video-card-container">
-                <span class="video-title">Video 1</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 2</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 3</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div no-body class="mb-0 section-container">
-          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-3" role="button" aria-expanded="false" aria-controls="accordion-3">
-            <span class="section-title third-title">Sección 03: Ejercicio práctico #01</span>
-          </div>
-          <div class="collapse" id="accordion-3">
-            <div class="section-content">
-              <div class="video-card-container">
-                <span class="video-title">Video 1</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 2</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 3</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 4</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 5</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 6</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 7</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 8</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 9</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div no-body class="mb-0 section-container">
-          <div class="section-title-container" data-bs-toggle="collapse" href="#accordion-4" role="button" aria-expanded="false" aria-controls="accordion-4">
-            <span class="section-title third-title">Sección 04: Final del curso</span>
-          </div>
-          <div class="collapse" id="accordion-4">
-            <div class="section-content">
-              <div class="video-card-container">
-                <span class="video-title">Video 1</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-
-              <div class="video-card-container">
-                <span class="video-title">Video 2</span>
-                <div class="play-btn">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
-
     <script src="{% static 'js/index.js' %}"></script>
   </body>
 </html>
