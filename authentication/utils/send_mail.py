@@ -1,5 +1,6 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+from django.conf import settings
 
 
 
@@ -12,7 +13,7 @@ def create_mail(email, subject, template_path, context):
     mail = EmailMultiAlternatives(
         subject=subject,
         body='',
-        from_email='nikolacantillo@gmail.com',
+        from_email = settings.EMAIL_HOST_USER,
         to=[
             email
         ],

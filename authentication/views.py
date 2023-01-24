@@ -124,10 +124,10 @@ def password_reset_request(request):
 					token_user = Profile.objects.get(user=user.pk)
 					token_user.forget_password_token = token
 					token_user.save()
-					subject = "Password Reset Requested"
+					subject = "Recuperar Contraseña"
 					# email_template_name = "authentication/password_reset.txt"
 					c = {
-					# "email":user.email,
+					"name": user.first_name,
 					'domain':'127.0.0.1:8000',
 					# 'site_name': 'Website',
 					# "user": user,
