@@ -17,36 +17,47 @@
         <div class="container-register shadow-lg">
           <div class="heading">Registrarte</div>
           <label for="">Es rapido y fácil.</label>
-          <form action="" method="post">
+          <form action="" method="post" id="registerForm">
             {% csrf_token %}
+            <div class="invalid-feedback">
+              {% for error in form.password.name.errors %}
+                  {{ error }}
+              {% endfor%}
+            </div>
             
             <div class="card-details  ">
               <div class="card-box">
                 <span class="details">Nombre Usuario</span>
-                <input type="text" id="username" name="{{form.username.name}}" placeholder="entre su nomrbe de usuario ">
+                <input type="text" id="username" name="{{form.username.name}}" placeholder="entre su nomrbe de usuario " required>
+                <span style = "color:red" class="error" id="errorUserName"> </span>
               </div>
               <div class="card-box">
                 <span class="details">Nombre</span>
-                <input type="text" id="fname" name="{{form.first_name.name}}" placeholder="entre su nombre ">
+                <input type="text" id="fname" name="{{form.first_name.name}}" placeholder="entre su nombre " required>
+                <span style = "color:red" class="error" id="errorName"> </span>
               </div>
               <div class="card-box">
                 <span class="details">Apellidos</span>
-                <input type="text" id="lname" name="{{form.last_name.name}}"  placeholder="entre su apellido ">
+                <input type="text" id="lname" name="{{form.last_name.name}}"  placeholder="entre su apellido " required>
+                <span style = "color:red" class="error" id="errorLastName"> </span>
               </div>
               <div class="card-box">
                 <span class="details">Correo electronico</span>
-                <input type="email" id="email" name="{{form.email.name}}" placeholder="entre su correo electronico ">
+                <input type="email" id="email" name="{{form.email.name}}" placeholder="entre su correo electronico " required>
               </div>
               <div class="card-box">
                 <span class="details" >Contraseña</span>
-                <input type="password" id="pass1" name="{{form.password.name}}" placeholder="entre su contraseña">
+                <input type="password" id="pass1" name="{{form.password.name}}" placeholder="entre su contraseña" required>
+                <span style = "color:red" id="errorPassword"></span>
               </div>
               <div class="card-box">
                 <span class="details">Confirmacion de contraseña</span>
-                <input type="password" id="pass2" name="{{form.password_confirmation.name}}" placeholder="entre su contraseña ">
+                <input type="password" id="pass2" name="{{form.password_confirmation.name}}" placeholder="confirme su contraseña " required>
+                <span style = "color:red" id="errorPassword2"></span>
               </div>
             </div>
             <div class="button">
+              <a href="javascript:ValidateRegistro();"></a>
               {% comment %} <button id="registroButton" type="submit">Registrarte</button> {% endcomment %}
               <input id="registroButton" type="submit" value="Registrarte">
               </span>
@@ -58,7 +69,7 @@
       
     </section>
 
-    
+{% comment %} <script src="{% static 'js/validate2.js' %}"></script> {% endcomment %}
 
 {% endblock %}
 

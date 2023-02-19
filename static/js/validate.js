@@ -1,5 +1,5 @@
 //Validaciones de email y contraseña
-console.log('holaaaaaaaaaaaaaaaaa')
+
 const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,25}$/
 

@@ -1,5 +1,3 @@
-"""Users views."""
-
 # Django
 import uuid
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +14,6 @@ from .forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.shortcuts import  render, redirect
 from django.contrib import messages
-# hola este es un comentariio
 from django.core.mail import BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
