@@ -47,7 +47,6 @@ class SignupForm(forms.Form):
     def clean(self):
         """Verify password confirmation match."""
         data = super().clean()
-
         password = data['password']
         password_confirmation = data['password_confirmation']
 
@@ -64,60 +63,3 @@ class SignupForm(forms.Form):
         user = User.objects.create_user(**data)
         profile = Profile(user=user)
         profile.save()
-
-
-# class ChangePasswordForm(forms.Form):
-#     """
-#     A form that lets a user change set their password without entering the old
-#     password
-#     """
-#     # def __init__(self, request, *args, **kwargs):
-#     #     self.user = request
-#     #     super().__init__(*args, **kwargs)
-
-    
-#     error_messages = {
-#         "password_mismatch": _("The two password fields didn’t match."),
-#     }
-#     new_password1 = forms.CharField(
-#         label=_("New password"),
-#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-#         strip=False,
-#         help_text=password_validation.password_validators_help_text_html(),
-#     )
-#     new_password2 = forms.CharField(
-#         label=_("New password confirmation"),
-#         strip=False,
-#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-#     )
-
-#     class Meta:
-#         model=Profile
-#         fields=('new_password1','new_password2')
-
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs['user'] = self.user
-#         return kwargs
-
-    
-#     def clean_new_password2(self):
-
-#         cleaned_data = super(ChangePasswordForm, self).clean()
-#         password1 = cleaned_data.get("new_password1")
-#         password2 = cleaned_data.get("new_password2")
-#         if password1 and password2:
-#             if password1 != password2:
-#                 raise ValidationError(
-#                     self.error_messages["password_mismatch"],
-#                     code="password_mismatch",
-#                 )
-#         password_validation.validate_password(password2)
-#         return cleaned_data
-
-#     def save(self, commit=True):
-#         password = self.cleaned_data["new_password1"]
-#         self.user.set_password(password)
-#         if commit:
-#             self.user.save()
-#         return self.user

@@ -132,7 +132,7 @@ class Lesson(models.Model):
         null=True,
     )
     title = models.CharField(
-        max_length=100,
+        max_length=100,     
     )
     thumbnail = models.ImageField(
         upload_to = lesson_directory_path,

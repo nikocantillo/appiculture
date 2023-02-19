@@ -1,4 +1,5 @@
 //Validaciones de email y contraseña
+console.log('holaaaaaaaaaaaaaaaaa')
 const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,25}$/
 
@@ -22,8 +23,6 @@ function addEvent(element, event, callback) {
 
 
 function ValidateRegistro(){
-    alert("hola")
-
     var username = document.getElementById('username').value;
     var names = document.getElementById('fname').value;
     var last_name = document.getElementById('lname').value;
