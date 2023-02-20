@@ -91,10 +91,22 @@ EMAIL_HOST_PASSWORD = "tbjxrmevshsshurs"
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'appiculture_db',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'appiculture_db',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'RU89MDPZAu0EkF1x7WgT',
+        'HOST': 'containers-us-west-198.railway.app',
+        'PORT': '6311'
     }
 }
 
