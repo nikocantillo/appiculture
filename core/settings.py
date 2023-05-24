@@ -92,24 +92,24 @@ EMAIL_HOST_PASSWORD = "tbjxrmevshsshurs"
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'appiculture_db',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'RU89MDPZAu0EkF1x7WgT',
-        'HOST': 'containers-us-west-198.railway.app',
-        'PORT': '6311'
+        'NAME': 'appiculture_db',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'RU89MDPZAu0EkF1x7WgT',
+#         'HOST': 'containers-us-west-198.railway.app',
+#         'PORT': '6311'
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -172,4 +172,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
