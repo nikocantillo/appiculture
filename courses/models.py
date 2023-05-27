@@ -24,6 +24,9 @@ class Author(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    class Meta:
+        verbose_name = "Autore"
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -59,6 +62,7 @@ class Course(models.Model):
 
     class Meta:
         ordering = ('-published',)
+        verbose_name = "Curso"
 
     def __str__(self):
         return self.title
@@ -103,6 +107,8 @@ class Chapter(models.Model):
         blank=True, 
         null=True
     )
+    class Meta:
+        verbose_name = "Capitulo"
 
     def __str__(self):
         return self.title
@@ -153,6 +159,9 @@ class Lesson(models.Model):
         blank=True, 
         null=True
     )
+
+    class Meta:
+        verbose_name = "Leccione"
 
     def __str__(self):
         return self.title
