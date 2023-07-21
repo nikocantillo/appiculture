@@ -79,6 +79,9 @@
       </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    <script>
+      var videoId = "{{ course.embebe_url|escapejs }}";
+  </script>
   </body>
 </html>
 {% endblock %}
